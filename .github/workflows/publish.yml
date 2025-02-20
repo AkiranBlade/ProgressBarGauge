@@ -6,12 +6,16 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # 🔹 Force running only on Windows
+    runs-on: windows-latest  # Force running only on Windows
+
+    permissions:
+      contents: write  # Allows writing to repository contents (includes creating/releasing assets)
+      id-token: write   # Required for some authentication features
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-      
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
