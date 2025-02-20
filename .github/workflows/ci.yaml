@@ -29,7 +29,8 @@ jobs:
 
       - name: Publish Application
         run: dotnet publish -c Release -r ${{ matrix.target }} --self-contained true -o publish
-
+        env:
+            EnableWindowsTargeting: ${{ matrix.kind == 'windows' && 'true' || 'false' }}
       - name: Archive Release Artifacts
         uses: actions/upload-artifact@v4
         with:
