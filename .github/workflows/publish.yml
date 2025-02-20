@@ -35,11 +35,11 @@ jobs:
       run: dotnet publish ${{ env.PROJECT_FILE }} -c Release -r win-x64 --self-contained false -o publish
 
     - name: Package Application
-      run: Compress-Archive -Path publish\* -DestinationPath my-app-win-x64.zip -Force
+      run: Compress-Archive -Path publish\* -DestinationPath prograss-bar-gauge-x64.zip -Force
 
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        files: my-app-win-x64.zip
+        files: prograss-bar-gauge-x64.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
