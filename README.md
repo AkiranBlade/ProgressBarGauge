@@ -2,7 +2,7 @@
 
 The progress bar gauge allows users to open a guage image (one provided by default) which sits as TopMost on the users screen allowing them to get a more accurate measurement on a progress bar that gives no information.
 
-![image](./img/Progress%20Bar%20Gauge%20screenshot.png)
+![image](./img/Progress%20Bar%20Gauge%20screenshot.png) ![image](./img/Gauge%20in%20action.png)
 
 Simply download the latest release found in [releases](https://github.com/AkiranBlade/ProgressBarGauge/releases)
 
