@@ -4,7 +4,7 @@ The progress bar gauge allows users to open a guage image (one provided by defau
 
 ![image](./img/Progress%20Bar%20Gauge%20screenshot.png)
 
-Simply download the latest release found in [releases](/releases)
+Simply download the latest release found in [releases](https://github.com/AkiranBlade/ProgressBarGauge/releases)
 
 ** * NOTE - User may need to 'Unblock' the zip archive before extracting the contents otherwise the application may not run. **
 
