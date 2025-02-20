@@ -6,15 +6,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            target: linux-x64
-          - os: windows-latest
-            target: win-x64
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest  # 🔹 Force running only on Windows
 
     steps:
     - name: Checkout Repository
@@ -28,21 +20,22 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Locate Project File
+      id: project_file
+      shell: pwsh
+      run: |
+        $project = Get-ChildItem -Path . -Filter "*.csproj" -Recurse | Select-Object -First 1
+        echo "PROJECT_FILE=$($project.FullName)" >> $env:GITHUB_ENV
+
     - name: Build
-      run: dotnet publish -c Release -r ${{ matrix.target }} --self-contained false -o publish
+      run: dotnet publish ${{ env.PROJECT_FILE }} -c Release -r win-x64 --self-contained false -o publish
 
     - name: Package Application
-      shell: bash
-      run: |
-        if [[ "$RUNNER_OS" == "Windows" ]]; then
-          powershell Compress-Archive -Path publish\* -DestinationPath my-app-${{ matrix.target }}.zip -Force
-        else
-          zip -r my-app-${{ matrix.target }}.zip publish/*
-        fi
+      run: Compress-Archive -Path publish\* -DestinationPath my-app-win-x64.zip -Force
 
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        files: my-app-${{ matrix.target }}.zip
+        files: my-app-win-x64.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
