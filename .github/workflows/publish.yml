@@ -8,7 +8,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]  # Build on both Linux & Windows
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: linux-x64
+          - os: windows-latest
+            target: win-x64
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -24,20 +29,20 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet publish --configuration Release --output publish --self-contained false
+      run: dotnet publish -c Release -r ${{ matrix.target }} --self-contained false -o publish
 
     - name: Package Application
+      shell: bash
       run: |
         if [[ "$RUNNER_OS" == "Windows" ]]; then
-          Compress-Archive -Path publish/* -DestinationPath my-app.zip
+          powershell Compress-Archive -Path publish\* -DestinationPath my-app-${{ matrix.target }}.zip -Force
         else
-          zip -r my-app.zip publish/*
+          zip -r my-app-${{ matrix.target }}.zip publish/*
         fi
-      shell: bash
 
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        files: my-app.zip
+        files: my-app-${{ matrix.target }}.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
