@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
 
@@ -31,10 +31,11 @@ jobs:
         run: dotnet publish -c Release -r ${{ matrix.target }} --self-contained true -o publish
 
       - name: Archive Release Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: my-app-${{ matrix.target }}
           path: publish/
+          compression-level: 0  # Optional: Speeds up uploads, especially for large files
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
