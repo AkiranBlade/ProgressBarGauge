@@ -10,14 +10,9 @@ jobs:
       matrix:
         kind: ['windows']
         include:
-          - kind: linux
-            os: ubuntu-latest
-            target: linux-x64
-            enable_windows_targeting: true
           - kind: windows
             os: windows-latest
             target: win-x64
-            enable_windows_targeting: false
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -31,8 +26,6 @@ jobs:
 
       - name: Publish Application
         run: dotnet publish -c Release -r ${{ matrix.target }} --self-contained true -o publish
-        env:
-            EnableWindowsTargeting: ${{ matrix.enable_windows_targeting }}
       - name: Archive Release Artifacts
         uses: actions/upload-artifact@v4
         with:
