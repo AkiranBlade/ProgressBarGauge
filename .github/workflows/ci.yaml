@@ -13,6 +13,7 @@ jobs:
           - kind: linux
             os: ubuntu-latest
             target: linux-x64
+            enable_windows_targeting: true
           - kind: windows
             os: windows-latest
             target: win-x64
